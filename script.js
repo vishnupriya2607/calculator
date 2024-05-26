@@ -8,8 +8,17 @@ buttons.forEach((item) => {
     } else if (item.id == "backspace") {
       let string = display.innerText.toString();
       display.innerText = string.substr(0, string.length - 1);
-    } else if (display.innerText != "" && item.id == "equal") {
-      display.innerText = eval(display.innerText);
+    } else if (item.id == "equal" && display.innerText != "") {
+      try {
+        let expression = display.innerText;
+        if (/[\+\-\*\/]$/.test(expression)) {
+          expression = expression.slice(0, -1);
+        }
+        display.innerText = eval(expression);
+      } catch {
+        display.innerText = "Error";
+        setTimeout(() => (display.innerText = ""), 2000);
+      }
     } else if (display.innerText == "" && item.id == "equal") {
       display.innerText = "Empty!";
       setTimeout(() => (display.innerText = ""), 2000);
